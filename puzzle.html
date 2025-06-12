@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Surpresa Para Meu Amor</title>
+    <!-- Tailwind CSS para um design moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para fontes elegantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados */
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* Glassmorphism */
+        .glassmorphism {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 8px 32px rgba(31,38,135,0.37);
+            border-radius: 20px;
+        }
+        /* Gradient romântico */
+        .romantic-gradient {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #f472b6 100%);
+        }
+        /* Animações */
+        .fade-in { animation: fadeIn 1s ease-out forwards; }
+        .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);} }
+
+        /* Quebra-cabeça */
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(3,1fr);
+            gap:2px;
+            width:300px;
+            height:300px;
+            margin:0 auto;
+            background:#fff;
+            border-radius:12px;
+            padding:4px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.1);
+        }
+        .puzzle-piece {
+            background-size:300px 300px;
+            background-repeat:no-repeat;
+            border-radius:8px;
+            cursor:pointer;
+            transition:all .3s ease;
+            border:2px solid transparent;
+        }
+        .puzzle-piece:hover { transform:scale(1.05); border-color:#f472b6; box-shadow:0 4px 12px rgba(244,114,182,0.3); }
+
+        /* Coração / letras / barras ocultas */
+        .heart-pulse { animation: heartPulse 1.5s ease-in-out infinite; }
+        @keyframes heartPulse {0%,100%{transform:scale(1);}50%{transform:scale(1.1);} }
+        .lyrics-container::-webkit-scrollbar{display:none;} .lyrics-container{-ms-overflow-style:none;scrollbar-width:none;}
+        .lyrics-scroll { animation: scrollLyrics 30s linear infinite; }
+        @keyframes scrollLyrics { 0%{transform:translateY(100%);}100%{transform:translateY(-100%);} }
+
+        /* Botões */
+        .btn-hover { transition:all .3s cubic-bezier(0.4,0,0.2,1); }
+        .btn-hover:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+
+        /* Partículas de coração */
+        .heart-particle { position:absolute; color:#f43f5e; font-size:20px; animation:floatHeart 3s ease-in-out infinite; pointer-events:none; }
+        @keyframes floatHeart { 0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(-100px) rotate(360deg);opacity:0;} }
+    </style>
+</head>
+<body class="romantic-gradient min-h-screen overflow-hidden">
+
+    <!-- Intro -->
+    <div id="intro-screen" class="page-transition min-h-screen flex items-center justify-center text-center p-4 relative">
+        <div class="glassmorphism p-8 max-w-md mx-auto fade-in">
+            <h1 class="text-4xl md:text-5xl text-rose-800 mb-6">💕 Uma Surpresa Especial 💕</h1>
+            <p class="text-lg text-rose-600 mb-8">
+                <span class="block md:hidden">Deslize para a esquerda para descobrir</span>
+                <span class="hidden md:block">Clique para continuar</span>
+            </p>
+            <div class="pulse-animation text-6xl">💖</div>
+        </div>
+    </div>
+
+    <!-- Escolha -->
+    <div id="choice-screen" class="hidden opacity-0 page-transition min-h-screen flex items-center justify-center text-center p-4">
+        <div class="glassmorphism p-8 max-w-lg mx-auto fade-in">
+            <h2 class="text-3xl text-rose-800 mb-8">Como você gostaria de ver a surpresa?</h2>
+            <div class="space-y-4">
+                <button id="direct-btn" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-4 px-6 rounded-full btn-hover">🌹 Ver Diretamente</button>
+                <button id="puzzle-btn" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-4 px-6 rounded-full btn-hover">🧩 Quebra-cabeça Primeiro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Puzzle -->
+    <section id="puzzle-screen" class="hidden opacity-0 page-transition min-h-screen flex items-center justify-center py-8 px-4">
+        <div class="w-full max-w-4xl mx-auto text-center">
+            <div class="mb-8 fade-in-up">
+                <div class="heart-pulse text-4xl mb-4">💖</div>
+                <h1 class="text-3xl md:text-5xl text-rose-800 mb-4 font-bold">Monte nosso quebra-cabeça do amor</h1>
+                <p class="text-lg text-rose-600 mb-6">Clique nas peças para trocar de posição e revelar nossa foto especial</p>
+            </div>
+            <div class="glassmorphism rounded-3xl p-8 mb-8 inline-block">
+                <div id="puzzle-container" class="puzzle-container"></div>
+                <button id="shuffle-btn" class="mt-6 bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold btn-hover focus:outline-none focus:ring-4 focus:ring-rose-200">🎲 Embaralhar Novamente</button>
+            </div>
+            <div class="glassmorphism rounded-2xl p-4 max-w-md mx-auto">
+                <p class="text-rose-700 text-sm">💡 <strong>Dica:</strong> Clique em duas peças para trocá-las de lugar</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Surpresa -->
+    <div id="surprise-screen" class="hidden opacity-0 page-transition min-h-screen flex flex-col items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-2xl mx-auto text-center space-y-8">
+            <!-- Foto -->
+            <div class="fade-in">
+                <img id="couple-image" src="couple_photo.jpeg" alt="Nossa Foto" class="rounded-lg shadow-lg max-w-full h-auto">
+            </div>
+            <!-- Música -->
+            <div class="fade-in">
+                <audio id="golden-hour-audio" loop>
+                    <source src="golden_hour.mp3" type="audio/mpeg">
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+                <button id="play-pause-btn" class="bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-full btn-hover">🎵 Tocar/Pausar Música</button>
+            </div>
+            <!-- Mensagem -->
+            <div class="fade-in">
+                <div class="glassmorphism p-8">
+                    <h3 class="text-2xl text-rose-800 mb-4">💕 Para Você, Meu Amor 💕</h3>
+                    <p class="text-rose-700 text-lg leading-relaxed text-justify">
+            até que a última estrela do céu<br>
+            até que eu veja a última gota do oceano secar<br><br>
+            e até que meu coração se canse de bater,<br>
+            estaremos juntos no começo da poesia de nossas vidas<br>
+            e no fim dela, e lá te direi...<br><br>
+            eu te amo.
+          </p>
+
+            </div>
+            <!-- Letra -->
+            <div class="fade-in">
+                <div class="glassmorphism p-6">
+                    <h4 class="text-xl text-rose-800 mb-4">🎶 Golden Hour - Letra 🎶</h4>
+                    <div class="lyrics-container max-h-60 overflow-hidden text-rose-700 text-base relative lyrics-scroll">
+                        <div id="lyrics-text" class="whitespace-pre-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const introScreen = document.getElementById('intro-screen');
+        const choiceScreen = document.getElementById('choice-screen');
+        const puzzleScreen = document.getElementById('puzzle-screen');
+        const surpriseScreen = document.getElementById('surprise-screen');
+        const directBtn = document.getElementById('direct-btn');
+        const puzzleBtn = document.getElementById('puzzle-btn');
+        const audio = document.getElementById('golden-hour-audio');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const puzzleContainer = document.getElementById('puzzle-container');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const coupleImage = document.getElementById('couple-image');
+        const lyricsText = document.getElementById('lyrics-text');
+
+        let isPlaying = false;
+        let selectedPiece = null;
+        let puzzlePieces = [];
+        const correctOrder = [...Array(9).keys()];
+        let currentOrder = [...correctOrder];
+        const lyricsContent = `It was just two lovers
+Sittin' in the car, listening to Blonde
+Fallin' for each other
+Pink and orange skies... (continua)`;
+
+        // transição
+        const transition = (from, to, cb) => {
+            from.classList.add('opacity-0');
+            setTimeout(() => {
+                from.classList.add('hidden');
+                to.classList.remove('hidden');
+                setTimeout(() => {
+                    to.classList.remove('opacity-0');
+                    if(cb) cb();
+                },50);
+            },1000);
+        };
+
+        // show
+        directBtn.addEventListener('click', () => transition(choiceScreen, surpriseScreen, () => {
+            audio.play().catch(()=>{});
+            lyricsText.textContent = lyricsContent;
+        }));
+        puzzleBtn.addEventListener('click', () => transition(choiceScreen, puzzleScreen, () => {
+            createPuzzle(); shuffle();
+        }));
+        introScreen.addEventListener('click', () => transition(introScreen, choiceScreen));
+
+        // puzzle funcs
+        function createPuzzle() {
+            puzzleContainer.innerHTML = '';
+            puzzlePieces = [];
+            for(let i=0;i<9;i++){
+                const piece = document.createElement('div');
+                piece.className='puzzle-piece'; piece.dataset.idx=i;
+                const row=i%3,col=Math.floor(i/3);
+                piece.style.backgroundImage='url(couple_photo.jpeg)';
+                piece.style.backgroundPosition=`${-row*100}px ${-col*100}px`;
+                piece.addEventListener('click',()=>select(piece,i));
+                puzzleContainer.appendChild(piece);
+                puzzlePieces.push(piece);
+            }
+        }
+        function shuffle(){
+            currentOrder.sort(()=>Math.random()-0.5);
+            update(); selectedPiece=null;
+        }
+        function update(){
+            currentOrder.forEach((pos,i)=>{
+                const r=pos%3,c=Math.floor(pos/3);
+                puzzlePieces[i].style.backgroundPosition=`${-r*100}px ${-c*100}px`;
+            });
+        }
+        function select(piece,i){
+            if(selectedPiece===null){ selectedPiece=i; piece.style.border='3px solid #f472b6'; piece.style.transform='scale(1.05)'; }
+            else if(selectedPiece===i){ clear(); }
+            else { [currentOrder[selectedPiece],currentOrder[i]]=[currentOrder[i],currentOrder[selectedPiece]];
+                update(); clear(); check(); }
+        }
+        function clear(){ if(selectedPiece!==null){
+            puzzlePieces[selectedPiece].style.border='2px solid transparent';
+            puzzlePieces[selectedPiece].style.transform='scale(1)';
+            selectedPiece=null;
+        }}
+        function check(){ if(currentOrder.every((v,i)=>v===i)){
+            setTimeout(()=>transition(puzzleScreen,surpriseScreen,()=>{
+                audio.play().catch(()=>{});
+                lyricsText.textContent = lyricsContent;
+            }),1000);
+        }}
+
+        // música
+        playPauseBtn.addEventListener('click',()=>{
+            if(audio.paused){ audio.play(); isPlaying=true; playPauseBtn.textContent='⏸ Pausar Música'; }
+            else { audio.pause(); isPlaying=false; playPauseBtn.textContent='🎵 Tocar Música'; }
+        });
+    });
+    </script>
+</body>
+</html>
