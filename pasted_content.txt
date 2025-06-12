@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Surpresa Para Meu Amor</title>
+    
+    <!-- Tailwind CSS para um design moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts para fontes elegantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos personalizados para complementar o Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Efeito de Glassmorphism para os cards */
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Animação de pulsação suave para o ícone de seta */
+        .animate-pulse-slow {
+            animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-slow {
+            50% {
+                opacity: .5;
+            }
+        }
+
+        /* Esconder a barra de rolagem padrão do container da letra */
+        .lyrics-container::-webkit-scrollbar { display: none; }
+        .lyrics-container { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animação do Spinner (Carregando) */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #c026d3; /* Cor do spinner - Fúcsia */
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-rose-50 text-gray-800 overflow-x-hidden">
+
+    <!-- 
+      MÚSICA
+      Adicione o caminho para o seu arquivo de música no atributo 'src'.
+    -->
+    <audio id="background-music" loop>
+        <source src="https://github.com/thefelipejs/assets-cdn/raw/main/golden-hour.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <!-- TELA INICIAL (LANDING) -->
+    <section id="landing" class="h-screen w-screen flex flex-col items-center justify-center text-center p-4 transition-opacity duration-1000">
+        <h1 class="text-4xl md:text-6xl text-rose-800 mb-4">Para a pessoa mais especial</h1>
+        <p class="text-lg md:text-xl text-rose-600 mb-8">Tenho uma surpresa para você...</p>
+        
+        <a href="#surprise" id="reveal-button" class="cursor-pointer">
+            <span class="text-base md:text-lg text-rose-700 hover:text-rose-900 transition-colors">Clique aqui para descobrir</span>
+            <svg class="w-8 h-8 mx-auto mt-4 text-rose-500 animate-pulse-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </a>
+    </section>
+
+    <!-- TELA DA SURPRESA -->
+    <section id="surprise" class="min-h-screen w-screen flex items-center justify-center py-16 px-4 opacity-0 transition-opacity duration-1000 -translate-y-full">
+        <div class="w-full max-w-6xl mx-auto">
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl shadow-rose-200/50 p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- COLUNA DA IMAGEM E MÚSICA -->
+                <div class="flex flex-col items-center">
+                    <img id="couple-photo" 
+                         src="https://prod-storage-aka.llm-arcade.live/llm-arcade-prod-uploads-bucket/uploaded:WhatsApp%20Image%202025-06-11%20at%2017.29.36.jpg-f2c6547e-8610-4649-9c30-1a50969728cf" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/fecdd3/9f1239?text=Nossa+Foto+Aqui';"
+                         alt="Foto do casal" class="rounded-2xl w-full max-w-md h-auto object-cover shadow-lg">
+                    
+                    <div class="flex items-center justify-center mt-4">
+                        <button id="play-pause-btn" class="bg-rose-500 text-white rounded-full p-3 shadow-md hover:bg-rose-600 transition-all focus:outline-none">
+                            <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.841z"></path></svg>
+                            <svg id="pause-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.75 4.5a.75.75 0 00-.75.75v10.5a.75.75 0 001.5 0V5.25a.75.75 0 00-.75-.75zM14.25 4.5a.75.75 0 00-.75.75v10.5a.75.75 0 001.5 0V5.25a.75.75 0 00-.75-.75z"></path></svg>
+                        </button>
+                        <span class="ml-3 text-rose-700 font-semibold">Golden Hour - JVKE</span>
+                    </div>
+                </div>
+
+                <!-- COLUNA DO CONTEÚDO (DEDICATÓRIA, IA, LETRA) -->
+                <div class="flex flex-col space-y-6">
+                    <div class="glassmorphism rounded-2xl p-6 text-center">
+                        <h2 class="text-2xl font-bold text-rose-900 mb-3">Meu Amor,</h2>
+                        <p class="text-rose-800 text-base leading-relaxed">
+                            Você é o meu verso mais bonito, minha paz em dias difíceis e minha alegria em todos os momentos. Obrigado por existir. Essa surpresa é só um reflexo do quanto te amo.
+                        </p>
+                    </div>
+
+                    <!-- ✨ FUNCIONALIDADES COM GEMINI API ✨ -->
+                    <div class="glassmorphism rounded-2xl p-6 space-y-4">
+                         <div class="flex flex-col sm:flex-row gap-4">
+                            <button id="generate-poem-btn" class="flex-1 bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">✨ Gerar um Poema</button>
+                            <button id="generate-adventure-btn" class="flex-1 bg-gradient-to-r from-sky-500 to-indigo-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">✨ Planejar uma Aventura</button>
+                        </div>
+                        <div id="gemini-output" class="text-center min-h-[100px] flex items-center justify-center">
+                           <div id="gemini-loader" class="spinner hidden"></div>
+                           <p id="gemini-content" class="text-fuchsia-900 text-base leading-relaxed whitespace-pre-wrap"></p>
+                        </div>
+                    </div>
+                    
+                    <div id="lyrics-scroller" class="lyrics-container h-52 overflow-y-scroll p-4 bg-white/50 rounded-2xl border border-white/30">
+                        <h3 class="font-bold text-lg text-rose-800 mb-4 text-center">Golden Hour</h3>
+                        <div id="lyrics-content" class="text-sm text-gray-700 space-y-2 whitespace-pre-wrap">It was just two lovers... (letra completa omitida para brevidade)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- SELETORES DE ELEMENTOS ---
+            const revealButton = document.getElementById('reveal-button');
+            const surpriseSection = document.getElementById('surprise');
+            const landingSection = document.getElementById('landing');
+            const audio = document.getElementById('background-music');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const lyricsScroller = document.getElementById('lyrics-scroller');
+            
+            // --- NOVOS ELEMENTOS DA GEMINI API ---
+            const generatePoemBtn = document.getElementById('generate-poem-btn');
+            const generateAdventureBtn = document.getElementById('generate-adventure-btn');
+            const geminiLoader = document.getElementById('gemini-loader');
+            const geminiContent = document.getElementById('gemini-content');
+
+            let isPlaying = false;
+            let lyricsScrollInterval;
+            
+            // --- LÓGICA DA MÚSICA E SCROLL ---
+            function startLyricsScroll() {
+                if (lyricsScrollInterval) clearInterval(lyricsScrollInterval);
+                lyricsScroller.scrollTop = 0; // Reinicia o scroll
+                lyricsScrollInterval = setInterval(() => {
+                    if (lyricsScroller.scrollTop + lyricsScroller.clientHeight >= lyricsScroller.scrollHeight - 5) {
+                        clearInterval(lyricsScrollInterval);
+                    } else {
+                        lyricsScroller.scrollTop += 1;
+                    }
+                }, 120);
+            }
+
+            function stopLyricsScroll() {
+                clearInterval(lyricsScrollInterval);
+            }
+            
+            function togglePlay() {
+                if (isPlaying) {
+                    audio.pause();
+                    stopLyricsScroll();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                } else {
+                    // A reprodução automática precisa de interação do usuário.
+                    audio.play().then(() => {
+                        startLyricsScroll();
+                        playIcon.classList.add('hidden');
+                        pauseIcon.classList.remove('hidden');
+                    }).catch(error => {
+                        console.error("Erro ao tocar música:", error);
+                         // Mesmo que a música não toque, atualiza o ícone
+                        playIcon.classList.remove('hidden');
+                        pauseIcon.classList.add('hidden');
+                        isPlaying = !isPlaying; // Inverte para o estado correto
+                    });
+                }
+                isPlaying = !isPlaying;
+            }
+
+            revealButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('surprise').scrollIntoView({ behavior: 'smooth' });
+                surpriseSection.style.opacity = '1';
+                surpriseSection.style.transform = 'translateY(0)';
+                landingSection.style.opacity = '0';
+                setTimeout(() => { landingSection.style.display = 'none'; }, 1000);
+                if (!isPlaying && audio.paused) {
+                   togglePlay();
+                }
+            });
+
+            playPauseBtn.addEventListener('click', togglePlay);
+            
+            // --- ✨ LÓGICA DA GEMINI API ✨ ---
+            
+            // Função genérica para chamar a Gemini API
+            async function callGeminiAPI(prompt) {
+                geminiContent.textContent = '';
+                geminiLoader.classList.remove('hidden');
+                
+                const apiKey = ""; // Deixe em branco, será tratado pelo ambiente
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }]
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                       throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        geminiContent.textContent = text.trim();
+                    } else {
+                        throw new Error("Resposta da API inválida.");
+                    }
+
+                } catch (error) {
+                    console.error("Erro ao chamar a API Gemini:", error);
+                    geminiContent.textContent = "Oops! O gerador de surpresas está descansando. Tente novamente em um instante.";
+                } finally {
+                    geminiLoader.classList.add('hidden');
+                }
+            }
+            
+            // Evento para gerar o poema
+            generatePoemBtn.addEventListener('click', () => {
+                const poemPrompt = "Escreva um poema curto e romântico, com 3 ou 4 estrofes. O poema é para a minha namorada. Fale sobre como o amor dela transforma momentos comuns em algo mágico e inesquecível, como um 'golden hour' pessoal. Use uma linguagem poética e carinhosa.";
+                callGeminiAPI(poemPrompt);
+            });
+
+            // Evento para gerar a aventura
+            generateAdventureBtn.addEventListener('click', () => {
+                const adventurePrompt = "Descreva uma ideia criativa e romântica para um encontro ou uma pequena viagem de fim de semana para um casal. O plano deve ser surpreendente e focado em criar uma memória especial. Descreva o local, uma atividade principal e um detalhe romântico. Apresente em 2 ou 3 parágrafos curtos.";
+                callGeminiAPI(adventurePrompt);
+            });
+            
+            // Preenche a letra da música (o texto completo)
+            document.getElementById('lyrics-content').innerText = `It was just two lovers
+Sittin' in the car, listening to Blonde
+Fallin' for each other
+Pink and orange skies, feelin' super childish
+No Donald Glover
+Missed call from my mother
+Like, "Where you at tonight?"
+Got no alibi
+
+I was all alone with the love of my life
+She's got glitter for skin
+My radiant beam in the night
+I don't need no light to see you shine
+It's your golden hour
+You slow down time
+In your golden hour
+
+We were just two lovers
+Feet up on the dash, drivin' nowhere fast
+Burnin' through the summer
+Radio on blast, make the moment last
+She got solar power
+Minutes feel like hours
+She knew she was the baddest, can you even imagine
+Fallin' like I did?
+
+For the love of my life
+She's got glitter for skin
+My radiant beam in the night
+I don't need no light to see you shine
+It's your golden hour
+You slow down time
+In your golden hour`;
+        });
+    </script>
+</body>
+</html>
